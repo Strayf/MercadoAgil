@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Alert(String mensagem) {
-
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
 

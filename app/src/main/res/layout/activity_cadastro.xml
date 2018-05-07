@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#528BE5"
+        android:background="#D5D5D5"
         android:padding="10dp">
 
 
@@ -19,7 +19,9 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:layout_marginBottom="30dp"
-            android:text="Novo Cadastro"/>
+            android:textColor="#96858F"
+            android:textStyle="bold"
+            android:text="Novo Usuário"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -73,6 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
             android:text="REGISTRAR" />
     </LinearLayout>
 
