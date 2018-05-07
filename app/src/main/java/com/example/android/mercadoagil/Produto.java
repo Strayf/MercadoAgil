@@ -23,7 +23,7 @@ public class Produto {
         List<Produto> Produtos = new ArrayList<Produto>();
 
         Produtos.add(new Produto("Arroz","Arroz branco",2)) ;
-        Produtos.add(new Produto("Feijao","Feijao fradinho",2)) ;
+        Produtos.add(new Produto("Feijão","Feijão fradinho",2)) ;
         Produtos.add(new Produto("Macarrão","Massa italiana",2)) ;
 
         return Produtos ;

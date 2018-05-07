@@ -43,15 +43,15 @@ public class ProdutoAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_produto,parent , false);
 
-        TextView t = (TextView) view.findViewById(R.id.nomep_layout);
-        TextView t2 = (TextView) view.findViewById(R.id.valorp_layout);
+        TextView titulo = (TextView) view.findViewById(R.id.nomep_layout);
+        TextView descricao = (TextView) view.findViewById(R.id.valorp_layout);
         ImageView img = (ImageView) view.findViewById(R.id.img_layout);
 
         Produto a = produtos.get(position);
-        t.setText(a.getNome());
-        t2.setText(a.getDescricao());
+        titulo.setText(a.getNome());
+        descricao.setText(a.getDescricao());
         img.setImageResource(R.drawable.ic_launcher_background);
 
-        return view ;
+        return view;
     }
 }

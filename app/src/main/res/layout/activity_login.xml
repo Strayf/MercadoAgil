@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#528BE5"
+        android:background="#D5D5D5"
         android:padding="10dp">
 
 
@@ -19,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="22sp"
+            android:textColor="#96858F"
+            android:textStyle="bold"
             android:layout_marginBottom="30dp"
             android:text="Bem vindo ao Mercado Ágil!" />
 
@@ -49,13 +51,19 @@
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
             android:layout_height="wrap_content"
             android:text="ACESSAR" />
+
         <Button
             android:id="@+id/buttonCadastro"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Novo" />
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
+            android:text="Novo Usuário" />
 
 
     </LinearLayout>

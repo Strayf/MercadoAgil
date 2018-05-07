@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (validaLogin()) {
                    Alert("Sucesso");
 
-                   Intent telaPosLogin = new Intent(LoginActivity.this,ListaProdutosActivity.class);
+                   Intent telaPosLogin = new Intent(LoginActivity.this, ListaProdutosActivity.class);
                    LoginActivity.this.startActivity(telaPosLogin);
                 }
                 else Alert("Usuário ou senha incorretos.");
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent telaCadastro = new Intent(LoginActivity.this,CadastroActivity.class);
+                Intent telaCadastro = new Intent(LoginActivity.this, CadastroActivity.class);
                 LoginActivity.this.startActivity(telaCadastro);
 
             }
