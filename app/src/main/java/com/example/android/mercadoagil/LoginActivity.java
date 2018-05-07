@@ -24,9 +24,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void alet(String s) {
+    private void Alert(String mensagem) {
 
-        Toast.makeText(this,s , Toast.LENGTH_LONG).show();
+        Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
 
     private View.OnClickListener Acessar() {
@@ -35,12 +35,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (validaLogin()) {
-                    alet("Sucesso");
+                   Alert("Sucesso");
 
-                   Intent mudar = new Intent(LoginActivity.this,ListaProdutosActivity.class);
-                   LoginActivity.this.startActivity(mudar);
+                   Intent telaPosLogin = new Intent(LoginActivity.this,ListaProdutosActivity.class);
+                   LoginActivity.this.startActivity(telaPosLogin);
                 }
-                else alet("Usuario incorreto");
+                else Alert("Usuário ou senha incorretos.");
             }
         };
     }
@@ -49,14 +49,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent mudarTela = new Intent(LoginActivity.this,CadastroActivity.class);
-                LoginActivity.this.startActivity(mudarTela);
+                Intent telaCadastro = new Intent(LoginActivity.this,CadastroActivity.class);
+                LoginActivity.this.startActivity(telaCadastro);
 
             }
         };
     }
 
-    public boolean validaLogin(){
+    private boolean validaLogin(){
 
         EditText Login = findViewById(R.id.campoLogin);
         EditText Senha = findViewById(R.id.campoSenha);
