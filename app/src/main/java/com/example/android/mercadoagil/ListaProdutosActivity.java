@@ -6,7 +6,6 @@ import android.widget.ListView;
 
 import com.example.android.mercadoagil.adapter.ProdutoAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListaProdutosActivity extends AppCompatActivity {
@@ -17,12 +16,7 @@ public class ListaProdutosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_produtos);
         ListView listView = (ListView) findViewById(R.id.ListaProdutos);
-
-        List<Produto> Produtos = new ArrayList<Produto>();
-
-        Produtos.add(new Produto("Arroz","Arroz branco",2)) ;
-        Produtos.add(new Produto("Feijão","Feijão fradinho",2)) ;
-        Produtos.add(new Produto("Macarrão","Massa italiana",2)) ;
+        Produtos = Produto.getProdutos() ;
 
         listView.setAdapter(new ProdutoAdapter(this, Produtos));
     }

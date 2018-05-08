@@ -7,9 +7,8 @@
     tools:context=".ListaProdutosActivity">
     <LinearLayout
         android:id="@+id/LayoutP"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#D5D5D5"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
         android:orientation="vertical"
       >
 
@@ -17,6 +16,5 @@
             android:id="@+id/ListaProdutos"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
