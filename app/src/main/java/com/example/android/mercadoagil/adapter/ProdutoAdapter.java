@@ -43,6 +43,10 @@ public class ProdutoAdapter extends BaseAdapter {
 
         View view = LayoutInflater.from(context).inflate(R.layout.layout_produto,parent , false);
 
+        if (position%2 == 1) {
+            view.setBackgroundColor(0xFFA7969F);
+        }
+
         TextView titulo = (TextView) view.findViewById(R.id.nomep_layout);
         TextView descricao = (TextView) view.findViewById(R.id.valorp_layout);
         ImageView img = (ImageView) view.findViewById(R.id.img_layout);
@@ -50,7 +54,7 @@ public class ProdutoAdapter extends BaseAdapter {
         Produto a = produtos.get(position);
         titulo.setText(a.getNome());
         descricao.setText(a.getDescricao());
-        img.setImageResource(R.drawable.ic_launcher_background);
+        img.setImageResource(R.drawable.ic_cutlery);
 
         return view;
     }
