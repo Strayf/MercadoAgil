@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (validaLogin()) {
                    Alert("Sucesso");
 
-                   Intent telaPosLogin = new Intent(LoginActivity.this, ListaProdutosActivity.class);
+                   Intent telaPosLogin = new Intent(LoginActivity.this,  MainActivity.class);
                    LoginActivity.this.startActivity(telaPosLogin);
                 }
                 else Alert("Usuário ou senha incorretos.");

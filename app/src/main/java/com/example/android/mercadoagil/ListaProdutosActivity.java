@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.android.mercadoagil.classes.MercadoBD;
+import com.example.android.mercadoagil.classes.Produto;
 import com.example.android.mercadoagil.adapter.ProdutoAdapter;
 
 import java.util.ArrayList;
@@ -20,9 +22,11 @@ public class ListaProdutosActivity extends AppCompatActivity {
 
         List<Produto> Produtos = new ArrayList<Produto>();
 
-        Produtos.add(new Produto("Arroz","Arroz branco",2)) ;
-        Produtos.add(new Produto("Feijão","Feijão fradinho",2)) ;
-        Produtos.add(new Produto("Macarrão","Massa italiana",2)) ;
+        MercadoBD db = new MercadoBD(getBaseContext());
+
+        //db.deleteProdutos();
+        //db.inserirProdutos();
+        Produtos = db.listarProdutos();
 
         listView.setAdapter(new ProdutoAdapter(this, Produtos));
     }

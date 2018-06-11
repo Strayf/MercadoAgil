@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".CadastroActivity" />
-        <activity android:name=".ListaProdutosActivity"></activity>
+        <activity android:name=".ListaProdutosActivity" />
+        <activity android:name=".SetoresActivity" />
+        <activity android:name=".CarrinhoActivity"></activity>
     </application>
 
 </manifest>

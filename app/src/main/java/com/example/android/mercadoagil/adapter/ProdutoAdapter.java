@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.mercadoagil.Produto;
+import com.example.android.mercadoagil.classes.Produto;
 import com.example.android.mercadoagil.R;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class ProdutoAdapter extends BaseAdapter {
 
         Produto a = produtos.get(position);
         titulo.setText(a.getNome());
-        descricao.setText(a.getDescricao());
+        descricao.setText(a.getMarca());
         img.setImageResource(R.drawable.ic_cutlery);
 
         return view;
