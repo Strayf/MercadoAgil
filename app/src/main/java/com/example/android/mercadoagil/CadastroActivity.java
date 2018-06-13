@@ -48,7 +48,7 @@ public class CadastroActivity extends AppCompatActivity {
 
                 db.cadastraCliente(cliente);
 
-                Intent telaLogin = new Intent(CadastroActivity.this,LoginActivity.class);
+                Intent telaLogin = new Intent(CadastroActivity.this, LoginActivity.class);
                 CadastroActivity.this.startActivity(telaLogin);
 
             }

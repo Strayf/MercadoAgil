@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         return new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SetoresActivity.class);
+                Intent intent = new Intent(MainActivity.this, ComprasActivity.class);
                 startActivity(intent);
             }
         };
