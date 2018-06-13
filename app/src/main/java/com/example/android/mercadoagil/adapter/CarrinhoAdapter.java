@@ -42,7 +42,7 @@ public class CarrinhoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
 
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_carrinho,parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_carrinho, parent, false);
 
         if (position%2 == 1) {
             view.setBackgroundColor(0xFFA7969F);

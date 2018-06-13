@@ -176,7 +176,7 @@ public class MercadoBD extends SQLiteOpenHelper {
                     Double  preco = c.getDouble(c.getColumnIndex("preco"));
                     Integer id = c.getInt(c.getColumnIndex("_id"));
 
-                    Produto produto = new Produto(nome, marca, preco, id);
+                    Produto produto = new Produto(nome, marca, preco, id, 1);
                     produtos.add(produto);
 
                 }while(c.moveToNext());

@@ -10,13 +10,15 @@ public class Produto {
     private String Nome;
     private String Marca;
     private double Preco;
+    private int Quantidade;
 
-    public Produto(String Nome, String Marca, double Preco, Integer id) {
+    public Produto(String Nome, String Marca, double Preco, Integer id, Integer Quantidade) {
 
         this.id = id;
         this.Nome = Nome;
         this.Marca = Marca;
         this.Preco = Preco;
+        this.Quantidade = Quantidade;
     }
 
     public String getNome() {
@@ -28,7 +30,7 @@ public class Produto {
     }
 
     public double getPreco() {
-        return this.Preco;
+        return this.Preco * this.Quantidade;
     }
 
     public Integer getId() {
