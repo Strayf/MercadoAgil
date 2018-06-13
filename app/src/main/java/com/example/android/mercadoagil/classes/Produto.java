@@ -37,4 +37,12 @@ public class Produto {
         return id;
     }
 
+    public Integer getQuantidade() {
+        return Quantidade;
+    }
+
+    public void setQuantidade(Integer Quantidade) {
+        this.Quantidade = Quantidade;
+    }
+
 }

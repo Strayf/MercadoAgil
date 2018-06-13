@@ -38,23 +38,10 @@ public class CarrinhoActivity extends AppCompatActivity {
         String loginCliente = LerLogin(this, "Login");
 
         cliente = db.lerCliente(loginCliente);
-        carrinho = new Carrinho(cliente);
+        carrinho = db.listarCarrinho(loginCliente);
+        if (carrinho == null) carrinho = new Carrinho(cliente);
 
         ListView listView = (ListView) findViewById(R.id.ListaCarrinho);
-
-        Produto produto = new Produto("Batata", "Fake", 3.5, 5, 3);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
-        carrinho.adicionaProduto(produto);
 
         TextView viewPreco = findViewById(R.id.precoTotal);
         double preco = carrinho.calculaValorTotal();

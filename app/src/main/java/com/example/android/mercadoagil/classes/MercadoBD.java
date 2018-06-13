@@ -48,37 +48,45 @@ public class MercadoBD extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
 
-            values.put("nome", "Sabao");
-            values.put("marca", "Omo");
-            values.put("categoria", "Limpeza");
-            values.put("preco", 5.5);
-            db.insert("produto", "", values);
-            values.put("nome", "Detergente");
-            values.put("marca", "Minuano");
-            values.put("categoria", "Limpeza");
-            values.put("preco", 0.99);
-            db.insert("produto", "", values);
-            values.put("nome", "Quijo Prato");
-            values.put("marca", "Perdigao");
-            values.put("categoria", "Frios");
-            values.put("preco", 1.99);
-            db.insert("produto", "", values);
-            values.put("nome", "Presunto");
-            values.put("marca", "Perdigao");
-            values.put("categoria", "Frios");
-            values.put("preco", 2.10);
-            db.insert("produto", "", values);
-            values.put("nome", "Refrigerante 2l");
-            values.put("marca", "Coca-Cola");
-            values.put("categoria", "Bebida");
-            values.put("preco", 5.3);
-            db.insert("produto", "", values);
-            values.put("nome", "Cerveja Lata");
-            values.put("marca", "Antartica");
-            values.put("categoria", "Bebida");
-            values.put("preco", 5.5);
-            db.insert("produto", "", values);
-
+            String count = "SELECT count(*) FROM Produto";
+            Cursor mcursor = db.rawQuery(count, null);
+            mcursor.moveToFirst();
+            int icount = mcursor.getInt(0);
+            if(icount == 0) {
+                values.put("Nome", "Sabão");
+                values.put("Marca", "Omo");
+                values.put("Categoria", "Limpeza");
+                values.put("Preco", 5.5);
+                db.insert("Produto", "", values);
+                values.put("Nome", "Detergente");
+                values.put("Marca", "Minuano");
+                values.put("Categoria", "Limpeza");
+                values.put("Preco", 0.99);
+                db.insert("Produto", "", values);
+                values.put("Nome", "Queijo Prato");
+                values.put("Marca", "Perdigão");
+                values.put("Categoria", "Frios");
+                values.put("Preco", 1.99);
+                db.insert("Produto", "", values);
+                values.put("Nome", "Presunto");
+                values.put("Marca", "Perdigão");
+                values.put("Categoria", "Frios");
+                values.put("Preco", 2.10);
+                db.insert("Produto", "", values);
+                values.put("Nome", "Refrigerante 2L");
+                values.put("Marca", "Coca-Cola");
+                values.put("Categoria", "Bebida");
+                values.put("Preco", 5.3);
+                db.insert("Produto", "", values);
+                values.put("Nome", "Cerveja Lata");
+                values.put("Marca", "Antartica");
+                values.put("Categoria", "Bebida");
+                values.put("Preco", 5.5);
+                db.insert("Produto", "", values);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
         finally {
             db.close();
@@ -227,6 +235,85 @@ public class MercadoBD extends SQLiteOpenHelper {
             db.close();
         }
         return compras;
+    }
+
+    public void adicionarAoCarrinho(Carrinho carrinho) {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            List<Produto> produtos = carrinho.getListaProdutos();
+
+            for (Produto produto : produtos) {
+                ContentValues values = new ContentValues();
+                values.put("Quantidade", produto.getQuantidade());
+                values.put("id_produto", produto.getId());
+                values.put("id_cliente", carrinho.getCliente().getID());
+                db.insert("Carrinho", "", values);
+            }
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+    }
+
+    public Carrinho listarCarrinho(String loginCliente) {
+        Cliente cliente = lerCliente(loginCliente);
+        Carrinho carrinho = new Carrinho(cliente);
+        SQLiteDatabase db = getReadableDatabase();
+
+        try {
+            Cursor c = db.rawQuery("SELECT Quantidade, id_produto FROM Carrinho WHERE id_cliente = ?", new String[] {cliente.getID().toString()});
+            if(c.moveToFirst()){
+
+                do {
+                    Integer Quantidade = c.getInt(c.getColumnIndex("Quantidade"));
+                    Integer idProduto = c.getInt(c.getColumnIndex("id_produto"));
+
+                    Produto produto = lerProduto(idProduto);
+                    produto.setQuantidade(Quantidade);
+
+                    carrinho.adicionaProduto(produto);
+
+                } while(c.moveToNext());
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+        return carrinho;
+    }
+
+    public Produto lerProduto(Integer idProduto) {
+        SQLiteDatabase db = getReadableDatabase();
+        Produto produto = new Produto("","",0,0, 0);
+
+        try {
+            Cursor c = db.rawQuery("SELECT Nome, Marca, Preco, _id FROM Produto WHERE _id = ?", new String[] {idProduto.toString()});
+            if(c.moveToFirst()){
+
+                do {
+                    String  Nome = c.getString(c.getColumnIndex("Nome"));
+                    String  Marca = c.getString(c.getColumnIndex("Marca"));
+                    Double  Preco = c.getDouble(c.getColumnIndex("Preco"));
+                    Integer id = c.getInt(c.getColumnIndex("_id"));
+
+                    produto = new Produto(Nome, Marca, Preco, id, 1);
+                } while(c.moveToNext());
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+        return produto;
     }
 
     public List<Produto> listarProdutos(){

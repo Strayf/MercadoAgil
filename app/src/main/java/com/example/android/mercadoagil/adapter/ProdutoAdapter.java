@@ -4,14 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.mercadoagil.classes.Produto;
 import com.example.android.mercadoagil.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class ProdutoAdapter extends BaseAdapter {
     private Context context;
@@ -39,9 +45,9 @@ public class ProdutoAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, final View convertView, ViewGroup parent){
 
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_produto,parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_produto, parent, false);
 
         if (position%2 == 1) {
             view.setBackgroundColor(0xFFA7969F);
