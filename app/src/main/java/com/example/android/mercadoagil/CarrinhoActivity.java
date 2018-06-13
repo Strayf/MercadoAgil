@@ -75,6 +75,9 @@ public class CarrinhoActivity extends AppCompatActivity {
                 db.gravarCompra(carrinho, data);
 
                 Alert("Compra gravada com sucesso.");
+
+                Intent intent = new Intent(CarrinhoActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         };
     }

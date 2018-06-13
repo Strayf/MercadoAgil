@@ -32,6 +32,7 @@ public class ComprasActivity extends AppCompatActivity {
         Integer idCliente = cliente.getID();
 
         compras = db.listarCompras(idCliente.toString());
+        if (compras == null) compras = new ArrayList<Compra>();
 
         listView.setAdapter(new ComprasAdapter(this, compras));
     }
