@@ -47,6 +47,13 @@
             android:hint="Senha"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/checkLembrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#96858F"
+            android:text="Lembrar-me" />
+
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
