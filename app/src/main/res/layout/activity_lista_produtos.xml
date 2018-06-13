@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListaProdutosActivity">
+    tools:context="com.example.android.mercadoagil.ListaProdutosActivity">
+
     <LinearLayout
         android:id="@+id/LayoutP"
         android:layout_width="match_parent"

@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="0.2"
+    android:background="#D5D5D5"
+    android:padding="10dp"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context="com.example.android.mercadoagil.MainActivity">
 
-    <Button
-        android:id="@+id/button"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Iniciar compras"
-        />
+        app:srcCompat="@drawable/title" />
 
-    <Button
-        android:id="@+id/button2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Carrinho"
-        />
+        android:gravity="center"
+        android:layout_weight="0.8"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"
+            android:text="Iniciar compras"
+            />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"
+            android:text="Carrinho"
+            />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#6D7993"
+            android:textColor="#FFFFFF"
+            android:text="Status"
+            />
+    </LinearLayout>
 
 
 </LinearLayout>

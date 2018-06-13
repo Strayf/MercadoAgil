@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_default"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_default"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -21,10 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastroActivity" />
-        <activity android:name=".ListaProdutosActivity" />
-        <activity android:name=".SetoresActivity" />
-        <activity android:name=".CarrinhoActivity"></activity>
+        <activity android:name=".CadastroActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListaProdutosActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SetoresActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CarrinhoActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

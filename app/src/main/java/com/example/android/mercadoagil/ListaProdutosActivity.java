@@ -13,7 +13,8 @@ import java.util.List;
 
 public class ListaProdutosActivity extends AppCompatActivity {
 
-    private List<Produto> Produtos;
+    //private List<Produto> Produtos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +25,10 @@ public class ListaProdutosActivity extends AppCompatActivity {
 
         MercadoBD db = new MercadoBD(getBaseContext());
 
-        //db.deleteProdutos();
-        //db.inserirProdutos();
-        Produtos = db.listarProdutos();
+        db.deleteProdutos();
+        db.inserirProdutos();
+        //Produtos = db.listarProdutos();
 
-        listView.setAdapter(new ProdutoAdapter(this, Produtos));
+        //listView.setAdapter(new ProdutoAdapter(this, Produtos));
     }
 }

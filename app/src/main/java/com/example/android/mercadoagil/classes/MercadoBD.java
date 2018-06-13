@@ -138,28 +138,27 @@ public class MercadoBD extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
         try {
-            ContentValues values = new ContentValues();
-            List<Integer> id_produtos = carrinho.getId_produtos();
 
-            for (Integer id_produto : id_produtos) {
+//            ContentValues values = new ContentValues();
+//            List<Integer> id_produtos = carrinho.getId_produtos();
+//
+//            for (Integer id_produto : id_produtos) {
+//
+//                values.put("data", data);
+//                values.put("hora",hora);
+//                values.put("id_clinte", carrinho.getId_cliente());
+//                values.put("id_produto", id_produto);
+//                db.insert("compra", "", values);
 
-                values.put("data", data);
-                values.put("hora",hora);
-                values.put("id_clinte", carrinho.getId_cliente());
-                values.put("id_produto", id_produto);
-                db.insert("compra", "", values);
-
-            }
-
-            return "Compra concluida com sucesso";
-
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
         finally {
-
             db.close();
-
         }
 
+        return "Compra concluida com sucesso";
     }
     public List<Produto> listarProdutos(){
         SQLiteDatabase db = getReadableDatabase();
@@ -182,6 +181,9 @@ public class MercadoBD extends SQLiteOpenHelper {
 
                 }while(c.moveToNext());
             }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
         finally {
             db.close();

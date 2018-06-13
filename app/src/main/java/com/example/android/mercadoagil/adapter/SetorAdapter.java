@@ -38,7 +38,9 @@ public class SetorAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(this.context).inflate(R.layout.layout_setor,parent,false);
-        ImageView image = (ImageView) view.findViewById(R.id.imageGrid) ;
+        ImageView image = (ImageView) view.findViewById(R.id.imageGrid);
+
+        image.setImageResource(R.drawable.ic_cutlery);
 
         return view;
     }

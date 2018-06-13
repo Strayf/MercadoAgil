@@ -36,7 +36,11 @@ public class SetoresActivity extends AppCompatActivity implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this,"Imagem selecionado: " + (position+1), Toast.LENGTH_SHORT).show();
         Intent telaPosSetor = new Intent(SetoresActivity.this, ListaProdutosActivity.class);
-        SetoresActivity.this.startActivity(telaPosSetor);
-
+        try {
+            SetoresActivity.this.startActivity(telaPosSetor);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

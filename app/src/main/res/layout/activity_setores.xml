@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SetoresActivity">
+    android:background="#D5D5D5"
+    tools:context="com.example.android.mercadoagil.SetoresActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_weight="9"
+        android:layout_weight="14"
         android:gravity="center"
         android:background="@color/colorPrimary"
         >
@@ -34,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnWidth="10dip"
-            android:horizontalSpacing="20dip"
+            android:horizontalSpacing="20dp"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
