@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         Cliente cliente = db.lerCliente(tLogin, tSenha);
 
         if (cliente != null) {
+            GravarLogin(ctx, "Login", cliente.getLogin());
             return cliente;
         }
 

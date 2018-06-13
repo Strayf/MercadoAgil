@@ -5,14 +5,20 @@ import android.util.Log;
 
 public class Cliente {
 
+    private Integer ID;
     private String Nome;
     private String Login;
     private String Senha;
 
-    public Cliente(String Nome, String Login, String Senha) {
+    public Cliente(Integer ID, String Nome, String Login, String Senha) {
+        this.ID = ID;
         this.Nome = Nome;
         this.Login = Login;
         this.Senha = Senha;
+    }
+
+    public Integer getID() {
+        return ID;
     }
 
     public String getNome() {

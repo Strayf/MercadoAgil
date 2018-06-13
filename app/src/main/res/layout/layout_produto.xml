@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#D5D5D5"
@@ -11,29 +12,73 @@
         android:layout_width="90dp"
         android:layout_height="92dp"
         android:src="@drawable/ic_cutlery" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/nomep_layout"
-            android:textSize="20dp"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textColor="#6D7993"
-            android:textStyle="bold"
-            android:text="Nome Produto" />
+            android:padding="10dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/valorp_layout"
-            android:textSize="20dp"
+            <TextView
+                android:id="@+id/nomep_layout"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="#6D7993"
+                android:textStyle="bold"
+                android:text="Nome Produto" />
+
+            <TextView
+                android:id="@+id/valorp_layout"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valor" />
+
+        </LinearLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Valor" />
+            android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageAdd"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/ic_add" />
+            <TextView
+                android:id="@+id/quantidade_layout"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="0" />
+
+            <ImageButton
+                android:id="@+id/imageRemove"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/ic_remove" />
+
+        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

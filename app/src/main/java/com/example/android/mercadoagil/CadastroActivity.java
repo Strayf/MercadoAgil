@@ -43,7 +43,7 @@ public class CadastroActivity extends AppCompatActivity {
                     return;
                 }
 
-                Cliente cliente = new Cliente(Nome, Login, Senha);
+                Cliente cliente = new Cliente(0, Nome, Login, Senha);
                 MercadoBD db = new MercadoBD(getBaseContext());
 
                 db.cadastraCliente(cliente);

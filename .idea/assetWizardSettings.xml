@@ -16,12 +16,38 @@
                             <entry key="launcherLegacy">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="d5d5d5" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="clipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="jar:file:/D:/Android/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_remove_black_24dp.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="backgroundColor" value="6d7993" />
                                       <entry key="iconShape" value="CIRCLE" />
                                       <entry key="imageAsset" value="C:\Users\erikb_000\Downloads\Icon.png" />
-                                      <entry key="outputName" value="ic_launcher_default" />
+                                      <entry key="outputName" value="ic_remove" />
                                     </map>
                                   </option>
                                 </PersistentState>
