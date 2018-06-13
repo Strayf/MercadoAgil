@@ -14,6 +14,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.mercadoagil.classes.Cliente;
+import com.example.android.mercadoagil.classes.MercadoBD;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Context ctx;
@@ -52,13 +55,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (validaLogin()) {
-                    Alert("Bem vindo.");
+                Cliente cliente = validaLogin();
+
+                if (cliente == null) {
+                    Alert("Usuário ou senha incorretos.");
+
+                }
+                else {
+                    Alert("Bem vindo, " + cliente.getNome());
 
                     Intent telaPosLogin = new Intent(LoginActivity.this,  MainActivity.class);
                     LoginActivity.this.startActivity(telaPosLogin);
                 }
-                else Alert("Usuário ou senha incorretos.");
             }
         };
     }
@@ -75,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
 
-    private boolean validaLogin(){
+    private Cliente validaLogin(){
 
         EditText Login = findViewById(R.id.campoLogin);
         EditText Senha = findViewById(R.id.campoSenha);
@@ -95,12 +103,14 @@ public class LoginActivity extends AppCompatActivity {
             GravarLogin(ctx, "Lembrar", false);
         }
 
-        if ("abc".equals(tLogin) && "123".equals(tSenha)) {
-            return true;
+        MercadoBD db = new MercadoBD(getBaseContext());
+        Cliente cliente = db.lerCliente(tLogin, tSenha);
+
+        if (cliente != null) {
+            return cliente;
         }
-        else {
-            return false;
-        }
+
+        return null;
     }
 
     public void GravarLogin(Context context, String campo, String texto) {

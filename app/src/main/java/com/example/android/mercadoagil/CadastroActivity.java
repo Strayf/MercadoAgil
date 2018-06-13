@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.mercadoagil.classes.Cliente;
+import com.example.android.mercadoagil.classes.MercadoBD;
+
 public class CadastroActivity extends AppCompatActivity {
 
     @Override
@@ -39,6 +42,11 @@ public class CadastroActivity extends AppCompatActivity {
                     Alert("Senha e confirmação devem ser idênticas.");
                     return;
                 }
+
+                Cliente cliente = new Cliente(Nome, Login, Senha);
+                MercadoBD db = new MercadoBD(getBaseContext());
+
+                db.cadastraCliente(cliente);
 
                 Intent telaLogin = new Intent(CadastroActivity.this,LoginActivity.class);
                 CadastroActivity.this.startActivity(telaLogin);

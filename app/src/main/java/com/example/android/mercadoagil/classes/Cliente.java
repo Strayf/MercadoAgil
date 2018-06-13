@@ -1,32 +1,33 @@
 package com.example.android.mercadoagil.classes;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 public class Cliente {
 
-    private String  nome;
-    private String  email;
-    private String  senha;
+    private String Nome;
+    private String Login;
+    private String Senha;
+
+    public Cliente(String Nome, String Login, String Senha) {
+        this.Nome = Nome;
+        this.Login = Login;
+        this.Senha = Senha;
+    }
 
     public String getNome() {
-        return nome;
+        return Nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public String getLogin() {
+        return Login;
     }
 
     public String getSenha() {
-        return senha;
+        return Senha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setSenha(String Senha) {
+        this.Senha = Senha;
     }
 }
