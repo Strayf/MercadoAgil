@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>
+		The Moves - Part 2
+	</title>
+	<style>
+		body {
+			background-color: #fff;
+		}
+	</style>
+</head>
+<body>
+<canvas id="main"></canvas>
+<script>
+	var DrawableObject = function(x,y,color)
+	{
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	};
+	var SqObj = function(x,y,width,height,color,health)
+	{
+		DrawableObject.call(this,x,y,color);
+		this.width = width;
+		this.height = height;
+		this.health = health;
+		this.hovering = false;
+		this.Draw = function()
+		{
+			ctx.beginPath();
+			ctx.fillStyle = this.color;
+			ctx.rect(this.x, this.y, this.width, this.height);
+			ctx.fill();
+			ctx.closePath();
+		};
+		
+		this.Jump = function()
+		{
+			this.hovering = true;
+			this.y-=10;
+			
+			if (this.y === screenHeight-sqHeight-200 || colideCheck(this, colider))
+			{
+				this.Fall();
+			}
+			else
+			{
+				setTimeout(this.Jump.bind(this), frameDuration);
+			}
+		};
+		this.Fall = function()
+		{
+			this.y+=10;
+			if (this.y === screenHeight-sqHeight || colideCheck(this, colider))
+			{
+				this.hovering = false;
+			}
+			else
+			{
+				setTimeout(this.Fall.bind(this), frameDuration);
+			}
+		};
+	};
+	var LnObj = function(x,y,width,height,thickness,color)
+	{
+		DrawableObject.call(this,x,y,color);
+		this.width = width;
+		this.height = height;
+		this.thickness = thickness;
+		this.Draw = function()
+		{
+			ctx.beginPath();
+			ctx.fillStyle = this.color;
+			ctx.rect(this.x, this.y, this.width, this.height, this.thickness);
+			ctx.stroke();
+			ctx.closePath();
+		};
+	};
+	var CircObj = function(x,y,radius,duration,color)
+	{
+		DrawableObject.call(this,x,y,color);
+		this.radius = radius;
+		this.duration = duration;
+		this.Draw = function()
+		{
+			if (this.duration > 0)
+			{
+				ctx.beginPath();
+				ctx.fillStyle = this.color;
+				ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+				ctx.fill();
+				ctx.closePath();
+			}
+		};
+	};
+	var worldX = 0;
+	var worldY = 0;
+	var moveSpd = 10;
+	var screenWidth = 800;
+	var screenHeight = 600;
+	var sqWidth = 100;
+	var sqHeight = 100;
+	var mainSq = new SqObj(worldX,screenHeight-sqHeight,sqWidth,sqHeight,"#F00",100);
+	var colider = new SqObj(worldX+200,screenHeight-sqHeight,sqWidth,sqHeight,"#F00",100);
+	var healthBar = new SqObj(10, 10, 3*mainSq.health, 30, "#900", 4);
+	var canvas = document.getElementById("main");
+	var ctx = canvas.getContext("2d");
+	var renderedObjects = [];
+	var keysPressed = [];
+	var missileCooldown = 0;
+	var mainCd = 20;
+	var frameRate = 60;
+	var frameDuration = 1000/frameRate;
+	var dead = false;
+	
+	window.onload = function() {
+		initCanvas(800, 600);
+		document.addEventListener("keydown", addKeyPress);
+		document.addEventListener("keyup", removeKeyPress);
+		setInterval(resetScreen, frameDuration);
+	};
+	
+	var addKeyPress = function(e)
+	{
+		keysPressed[e.keyCode] = true;
+	};
+	
+	var removeKeyPress = function(e)
+	{
+		keysPressed[e.keyCode] = false;
+	};
+	
+	var keyControl = function()
+	{
+		if (keysPressed[39] === true && mainSq.x < screenWidth - mainSq.width) {
+			/*if (colideCheck(mainSq, colider)) {
+				mainSq.x -= moveSpd;
+			}
+			else {
+				mainSq.x += moveSpd;
+			}*/
+				mainSq.x += moveSpd;
+		}
+		if (keysPressed[38] === true && !mainSq.hovering) {
+			mainSq.Jump();
+		}
+		if (keysPressed[37] === true && mainSq.x > 0) {
+			/*if (colideCheck(mainSq, colider)) {
+				mainSq.x += moveSpd;
+			}
+			else {
+				mainSq.x -= moveSpd;
+			}*/
+				mainSq.x -= moveSpd;
+		}
+		if (keysPressed[16] === true && missileCooldown === 0) {
+			missileCooldown = mainCd;
+			blink(mainSq);
+			if (mainSq.health > 0)
+			{
+				mainSq.health -= 5;
+				healthBar.width = (3*mainSq.health);
+			}
+			var missile = new CircObj(mainSq.x + mainSq.width + 10, mainSq.y + (mainSq.height/2) - 5, 10, 80, "#349");
+			renderedObjects.push(missile);
+			deployMissile(missile);
+		}
+	};
+	
+	var blink = function(obj)
+	{
+		var originalColor = obj.color;
+		obj.color = "#000";
+		setTimeout(function(){ obj.color = originalColor }, 5*frameDuration);
+	};
+	
+	var gameOver = function()
+	{
+		dead = true;
+		ctx.font = "64px Arial";
+		ctx.fillStyle = "#AAA";
+		ctx.fillRect(screenWidth/2-10, screenHeight/2-65, 500, 80);
+		ctx.fillStyle = "#000";
+		ctx.fillText("GAME OVER", screenWidth/2, screenHeight/2);
+		ctx.font = "32px Arial";
+		ctx.fillText("Press \"R\" to continue.", screenWidth/2, screenHeight/2+60);
+		if (keysPressed[82] === true && dead === true)
+		{
+			mainSq.health = 100;
+			healthBar.width = (3*mainSq.health);
+			dead = false;
+		}
+	};
+	
+	var resetScreen = function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		if (mainSq.health > 0) 
+			keyControl();
+		else
+			gameOver();
+		if (missileCooldown > 0)
+			missileCooldown--;
+		renderedObjects.forEach(function(elem, index, array)
+		{
+			elem.Draw();
+		});
+	};
+	
+	var initCanvas = function(cvWidth, cvHeight) {
+		canvas.width = cvWidth;
+		canvas.height = cvHeight;
+		
+		renderedObjects.push(mainSq);
+		renderedObjects.push(colider);
+		renderedObjects.push(healthBar);
+		renderedObjects.push(new LnObj(8,8,304,34,4,"#000"));
+	};
+		
+	var deployMissile = function(missile)
+	{
+		if (missile.duration > 0) {
+			missile.duration--;
+			missile.x+=10;
+			setTimeout(deployMissile, 10, missile);
+		}
+		else if (missile.duration === 0)
+		{
+			renderedObjects = renderedObjects.filter(function(value, index, arr){
+				if (arr[index].duration != undefined)
+					return arr[index].duration > 0;
+				else
+					return true;
+			});
+		}
+	};
+	
+	var colideCheck = function(sqA, sqB)
+	{
+		if (sqA.x + sqA.width > sqB.x 
+			&& sqA.x < sqB.x + sqB.width
+			&& sqA.y + sqA.height > sqB.y
+			&& sqA.y < sqB.y + sqB.height)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	};
+	
+	
+</script>
+</body>
+</html>
