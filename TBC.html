@@ -76,6 +76,10 @@
 		É aqui que entram os scripts que fazem uso das técnicas de inteligência artificial, além dos comportamentos básicos que precisam ser retornados como resultado das tomadas de decisão decorrentes da utilização delas.
 		
 		O script InitBattle é o mais simples deles, cujo único propósito é criar a transição de cenários decorrente da colisão com o jogador. Antes de executar a transição, ele faz uma chamada ao GameManager para armazenar a posição do jogador e gravar o identificador de qual inimigo está sendo enfrentado, para que seja excluído quando for derrotado.
+		
+		O script InitBattle é o mais simples deles, cujo único propósito é criar a transição de cenários decorrente da colisão com o jogador. Antes de executar a transição, ele faz uma chamada ao GameManager para armazenar a posição do jogador e gravar o identificador de qual inimigo está sendo enfrentado, para que seja excluído quando for derrotado.
+
+		Aqui temos a primeira instância de um script que faz uso de uma das técnicas, nesse caso, a árvore de comportamento. O OverworldEnemyController é um script com 6 métodos: Start, Update, HandlePathfinding, OnPathFound, FollowPath e OnDrawGizmos. Novamente, os métodos Start, Update e OnDrawGizmos são herdados da classe MonoBehaviour, e o restante faz uso do algoritmo de pathfinding.
 	</P>
 	<SCRIPT>
 		document.onload = function()
