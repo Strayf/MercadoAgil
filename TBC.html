@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+	<TITLE>To Be Continued</TITLE>
+</HEAD>
+<BODY>
+	<P>
+		• Adequar template e retirar quebras de linha entre parágrafos. Adicionar lista de figuras.
+		
+		A seção "Managers" é composta por três scripts gerenciadores, isto é, eles tem o propósito de controlar fluxos dentro do jogo, e estão atrelados a objetos invisíveis dentro do jogo, meramente respondendo a quando são requisitados.
+		
+		Com isso, começamos pelo BattleManager, isto é, o gerenciador de batalhas. Ele possui um método Awake, que inicializa o inimigo no mapa em uma posição aleatória dentro de um alcance especificado, e um método CheckBattleConditions, que finaliza a batalha quando não existem mais inimigos vivos no mapa. Ele é relativamente simples, porém, pode ser utilizado para outras coisas, como controlar um menu de pausa, dar ao jogador a opção de tentar novamente ao ser derrotado, entre outras.
+		
+		Em seguida, temos o DialogueManager, o gerenciador de diálogos. Ele é utilizado para controlar a sequência de diálogos que ocorrem entre o jogador e os diversos NPCs que possam ser utilizados. O protótipo faz uso de apenas um, fora do cenário de combate. Possui um método StartDialogue, que serve para buscar e enfileirar as frases, congelar a movimentação do jogador e exibir a caixa de diálogo. 
+		
+		Temos também um método TypeSentence, que faz com que as letras do diálogo sejam preenchidas ao longo do tempo, gerando um efeito semelhante à digitação, um método QueueNextSentence, que busca e exibe a próxima frase da fila e exibe ao pressionar a tecla designada para isso, e o método EndDialogue, que é utilizado para descongelar o movimento do jogador e esconder a caixa de diálogo.
+		
+		O último gerenciador utilizado chama-se GameManager, e ele é voltado para controlar mecanismos que precisamos manter em observação durante a transição de cenas. Isto é, ele grava a posição em que o jogador estava ao entrar em combate, a quantidade de criaturas vivas no cenário principal, é responsável por inicializar as criaturas ao carregar o cenário, e controlar o carregamento de cenários.
+		
+		Como podemos ver, os gerenciadores são responsáveis por controlar comportamentos que não estão associados a nenhum objeto em específico nos cenários, motivo pelo qual possuem scripts segregados dos demais. Tecnicamente é possível implementar esses mesmos mecanismos em scripts de outros objetos, mas isso geraria uma grande quantidade de código duplicado, dificultando a manutenção e aumentando a propensão a erros.
+		
+		Os scripts "CameraMovement" e "SidescrollerCamera" tem o mesmo propósito, porém em pontos de vista diferentes. A câmera pode ser interpretada como o ponto de onde observamos o jogo acontecer. Quando observamos um cenário se mover junto ao nosso personagem, estamos observando a câmera se mover para acompanhar seu movimento, efetivamente nos permitindo observar o que há além do quadrado inicial que observamos ao começar. Se a câmera fosse estática e nos deslocassemos para além de seu alcance, conseguiriamos continuar movimentando o personagem, mas seria difícil determinar sua posição, tornando a experiência de jogo ruim.
+		
+		Assim, para permitir que o cenário seja percorrido de maneira intuitiva, fazemos com que a câmera persiga o personagem controlável, através de uma função matemática de interpolação linear, acessível através de uma das classes vetoriais do Unity. O objetivo da interpolação é fazer com que a movimentação seja gradativa, tornando-a mais suave e natural. Visto que temos dois cenários, cada um com sua própria câmera, cada uma tem seu próprio script para permitir tratamentos específicos levando em consideração o plano que cada uma observa, isto é, se visto de cima ou lateralmente.
+		
+		Outro detalhe importante é que não devemos permitir que a câmera escape de suas delimitações, pois isso pode fazer com que o jogador enxergue elementos que não deveriam estar em cena. Para isso delimitamos um limite superior esquerdo, e outro inferior direito, que delimitam até onde a câmera pode percorrer. Sendo assim, caso o jogador alcance o limite do cenário, a câmera terá sua movimentação corrigida, evitando que escape das bordas.
+		
+		Foi necessária a criação de alguns scripts para comportamentos gerais, que não necessariamente se enquadram em alguma categoria no jogo. Um deles é o DialogueTrigger, que contém o gatilho para iniciar o diálogo. O script verifica se o jogador está dentro da área de interação com o NPC, e caso esteja, dará início à conversa fazendo uso do DialogueManager.
+	</P>
+	<SCRIPT>
+		document.onload = function()
+		{
+			alert("Hey! Listen! Watch out!");
+		};
+	</SCRIPT>
+</BODY>
+</HTML>
