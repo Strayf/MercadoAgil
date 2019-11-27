@@ -76,10 +76,70 @@
 		É aqui que entram os scripts que fazem uso das técnicas de inteligência artificial, além dos comportamentos básicos que precisam ser retornados como resultado das tomadas de decisão decorrentes da utilização delas.
 		
 		O script InitBattle é o mais simples deles, cujo único propósito é criar a transição de cenários decorrente da colisão com o jogador. Antes de executar a transição, ele faz uma chamada ao GameManager para armazenar a posição do jogador e gravar o identificador de qual inimigo está sendo enfrentado, para que seja excluído quando for derrotado.
-		
-		O script InitBattle é o mais simples deles, cujo único propósito é criar a transição de cenários decorrente da colisão com o jogador. Antes de executar a transição, ele faz uma chamada ao GameManager para armazenar a posição do jogador e gravar o identificador de qual inimigo está sendo enfrentado, para que seja excluído quando for derrotado.
 
-		Aqui temos a primeira instância de um script que faz uso de uma das técnicas, nesse caso, a árvore de comportamento. O OverworldEnemyController é um script com 6 métodos: Start, Update, HandlePathfinding, OnPathFound, FollowPath e OnDrawGizmos. Novamente, os métodos Start, Update e OnDrawGizmos são herdados da classe MonoBehaviour, e o restante faz uso do algoritmo de pathfinding.
+		Aqui temos a primeira instância de um script que faz uso de uma das técnicas abordadas, nesse caso, o pathfinding. O OverworldEnemyController é um script com 6 métodos: Start, Update, HandlePathfinding, OnPathFound, FollowPath e OnDrawGizmos. Novamente, os métodos Start, Update e OnDrawGizmos são herdados da classe MonoBehaviour, e o restante faz uso do algoritmo de pathfinding.
+		
+		Mais uma vez, o método Start é usado para buscar referência de componentes, e nesse caso, para buscar e armazenar em uma variável o componente Transform do personagem jogável, que contém as coordenadas de sua posição. O método Update é utilizado para chamar o HandlePathfinding a cada 20 frames, e o método OnDrawGizmos é utilizado para traçar, dentro do editor, o caminho calculado pelo algoritmo.
+		
+		O método HandlePathfinding calcula a distância entre o inimigo e o jogador, e caso ele esteja dentro do raio de alcance de sua visão, fará uma requisição ao script PathRequestManager, que, ao final de sua execução, chamará a função callback OnPathFound. Chamamos de callback as funções que são executadas ao final de alguma execução ou verificação, nesse caso, é a função que é executada após o método RequestPath chamado dentro do PathRequestManager.
+		
+		O método OnPathFound verifica se existe uma rota acessível até o seu destino, e caso exista, executa a função FollowPath, que utiliza a lista de vetores recebida do PathRequestManager para determinar o caminho que deve seguir. Por vetor, entenda o conceito matemático de vetor, que representa uma reta em determinado plano que é orientada em determinado sentido, representando um caminho a ser traçado. Uma lista de vetores representa uma série de linhas retas a serem percorridas até o destino final.
+		
+		O comportamento de perseguição acima, somado ao início do combate na existência de colisões com o jogador, satisfazem as características esperadas das criaturas no cenário principal. Havendo o início do combate, gerenciado pelo BattleManager, passamos a observar os scripts EnemyController e SampleEnemyTree, que implementam uma árvore de comportamento e executam os comportamentos resultantes de sua avaliação. Para tal, podemos nos referir à figura X para observar a estrutura da árvore implementada.
+		
+		Assim, para o EnemyController temos os métodos Start, Update, Die, MoveTowardsPlayer, RunAway, AttackPlayer, AttackPlayerDelayed, OnCollisionEntender2D, KnockbackPlayer, TakeDamage, GetCurrentHealth, GetCurrentCooldown, DamageBlink e OnDrawGizmosSelected. Para o SampleEnemyTree, que representa a árvore de comportamento estruturada, temos Start, LoadDependencies, Evaluate, ExecuteActions, MoveTowardsPlayer, RunAway, AttackPlayer, WithinAtkRange, HealthSafeZone e AttackOffCooldown.
+		
+		Fica evidente que para replicar os diversos comportamentos esperados de uma inteligência artificial é necessário prover diversas ferramentas, nesse caso, os métodos, que representam ações que podem ser executadas pela criatura. Ela pode se aproximar do jogador, correr dele, atacar o jogador e morrer. Ela também faz uma série de verificações para permitir sua tomada de decisões, e notamos que muitos métodos tem a mesma nomenclatura entre os dois scripts. Vamos ver caso a caso, começando pelo script da árvore, SampleEnemyTree.
+		
+		Novamente, o método Start é usado para buscar os componentes, dessa vez através da chamada do método LoadDependencies, apenas por questão de organização. Porém, dessa vez, ele também é utilizado para criar os nós de nossa árvore de comportamento: As folhas playerWithinRange, safeHealth, offAttackCooldown, o inversor playerOutsideAtkRange, as sequências canAttackPlayer e a raíz, e o seletor pursueOrRun, conforme visto na figura X.
+		
+		Esse script não possui método Update, pois suas avaliações são executadas pelo Update do EnemyController. Assim, temos o método Evaluate, que verifica se o nó raíz já foi inicializado, e caso tenha, executa o próprio Evaluate pertencente ao nó. Isso faz com que todas as condições da árvore sejam testadas e atualiza o estado de cada nó pertencente a ela. Em seguida, chamamos o método ExecuteActions, que testa o estado de alguns nós e executa comandos de acordo com os resultados da avaliação.
+		
+		Caso o nó safeHealth falhe, ele executa o método RunAway, caso contrário, se o nó canAttackPlayer for um sucesso, executará o comando de ataque, caso contrário, se o nó playerOutsideAtkRange for um sucesso, ele perseguirá o jogador até estar dentro de seu alcance. Caso nenhuma das condições acima seja atendida, houve um problema na avaliação, e todas as ações serão interrompidas.
+		
+		Os métodos MoveTowardsPlayer, RunAway e AttackPlayer chamam seus equivalentes no script EnemyController, servindo apenas para gerar um tempo aleatório de atraso antes da execução do comando para aumentar um pouco a imprevisibilidade das ações, e tornar as ações menos robotizadas, passando a impressão de que a criatura está pensando antes de executar um comando, visto que todas as condições são avaliadas muito rapidamente para gerar qualquer tempo perceptível de espera entre a execução de diferentes ações.
+		
+		Os métodos WithinAtkRange, HealthSafeZone e AttackOffCooldown são validações utilizadas dentro de nós, e verificam, respectivamente, se o jogador está dentro do raio onde um ataque irá atingí-lo, se os pontos de vida da criatura são maiores do que 35% do total, e se o ataque dela já saiu do tempo de resfriamento, isso é, se o intervalo de tempo entre um golpe e outro já acabou.
+		
+		Para concluir a ideia da utilização da árvore, vamos observar os métodos Start e Update do script EnemyController. O método Start inicializa os componentes do objeto da criatura, inclusive o script SampleEnemyTree, que contém a lógica de tomada de decisões. O método Update é responsável por verificar os pontos de vida da criatura, e destruí-la quando eles chegam a zero. Além disso, ele chama a função Evaluate da SampleEnemyTree, que por sua vez fará a chamada dos métodos presentes nesse script com base no resultado dos nós.
+		
+		Entre eles, temos MoveTowardsPlayer, que verifica a posição da criatura em relação ao jogador, e se move na direção desejada para se aproximar dele, além de controlar as animações de movimento. O método RunAway faz a mesma verificação, porém, se move na direção oposta. AttackPlayer executa a chamada ao método AttackPlayerDelayed, para atrasar o momento em que o impacto com o jogador ocorre para se encaixar melhor na animação. Além disso, ele chama o método KnockbackPlayer, que empurra o jogador no momento do impacto. O método OnCollisionEnter2D é herdado de MonoBehaviour, e danifica e empurra o jogador, da mesma forma que um ataque o faria.
+		
+		O método TakeDamage é chamado pelo script do jogador PlayerAttack, e reduz os pontos de vida da criatura pelo dano emitido pelo jogador, além de emitir efeitos de particulas e escurecer brevemente o desenho da criatura, através da chamada do método DamageBlink.
+		
+		Os métodos GetCurrentHealth e GetCurrentCooldown retornam os valores de pontos de vida e tempo restante de resfriamento, respectivamente, e são usados apenas para consultar esses valores para tomada de decisões na árvore. Por fim, o método OnDrawGizmosSelected é usado com o mesmo propósito do script de ataque do jogador, que é exibir a área de efeito do golpe desferido pela criatura.
+		
+		Esses dois scripts interagem muito entre si, mas é importante que sejam segregados para que seus propósitos não sejam confundidos. Enquanto nada impede que se tornem um único arquivo, isso prejudica a organização do projeto.
+		
+		Por último, temos os três scripts responsáveis pela implementação da lógica de pathfinding através do algoritmo A* search: StarGrid, Pathfinding e PathRequestManager.
+		
+		Para percorrer determinado caminho em nossos cenários, precisamos elencar alguns pontos chave, para que se possa traçar uma rota. Isto é, por mais que tenhamos um plano que possa ser percorrido, precisamos dividi-lo de forma que seja possível mapear as coordenadas de cada área do jogo. Para isso, criamos uma grade com vários quadrados, que chamamos de nós, da mesma forma que chamamos cada "bloco" da árvore de comportamento. O script StarGrid é responsável por criar essa grade, implementando a classe Node.
+		
+		O script possui os métodos Awake, CreateGrid, NodeFromWorldPoint, NeighbourNodes e OnDrawGizmos. Para criar a grade, informamos o raio de cada nó e o tamanho da grade, em altura e largura, e o método Awake calcula o diâmetro de cada nó, a quantidade de nós verticalmente e lateralmente, e faz a chamada ao método CreateGrid. Esse, por sua vez, cria uma nova matriz de nós com base na quantidade calculada anteriormente. Uma matriz, nesse caso, é um termo matemático, que representa uma tabela com um número x de linhas e y de colunas, e pode ser utilizado com facilidade para representar cada nó de nossa grade.
+		
+		Ainda no método CreateGrid, é feita uma comparação com uma máscara para saber se os nós estão obstruídos ou não. Isso é feito com base em uma funcionalidade no Unity chamada LayerMask, que verifica quais áreas de determinada camada estão ocupadas. Assim, fazemos comparações com a área de cada nó com a área da máscara, e caso eles se sobreponham o nó está obstruído e não pode ser utilizado para calcular uma rota.
+		
+		O método OnDrawGizmos, herdado da classe MonoBehaviour, é utilizado para visualizarmos no editor da IDE a área de alcance da grade, é seu propósito é auxiliar a realização de ajustes.
+		
+		O método NodeFromWorldPoint é usado para buscar qual nó está em determinada posição, enquanto NeighbourNodes retorna uma lista de nós adjacentes a um nó específico. Sua utilização é essencial no script Pathfinding, pois precisamos de um meio fácil e rápido de localizar os nós de acordo com suas posições no cenário.
+		
+		Dentro do script finding, temos de fato a implementação do algoritmo propriamente dito. Ele possui os métodos Awake, FindPath, BuildPath, OptimizePath e GetDistance. Novamente, o Awake é utilizado para buscar os componentes, nesse caso, a grade e o PathRequestManager.
+		
+		O método FindPath é o que transforma o pseudocódigo apresentado anteriormente em código real. Ele pega a referência dos nós inicial e alvo, e insere o nó inicial na lista de nós abertos. À partir daí, faz um loop dentro de todos os nós abertos, e abre ou fecha os nós vizinhos de acordo com seus custos de movimentação. Assim que o nó comparado for igual ao nó de destino, o loop é interrompido, e o algoritmo retorna sucesso para o caminho encontrado. Caso não existam mais nós abertos e o nó de destino não foi encontrado, entende-se que o algoritmo não conseguiu encontrar um caminho viável, e é retornada uma falha. O caminho só é buscado caso o nó de destino não esteja obstruído. A cada vez que um nó é avaliado, seus vizinhos o recebem como nó pai, para permitir que o caminho de volta seja traçado no método BuildPath. 
+		
+		O método BuildPath cria uma lista de nós, acessando os pais de cada um até que o nó avaliado seja o mesmo onde a busca por um caminho foi iniciada. Ao final, é necessário reverter a ordem para obter o caminho correto, visto que avaliamos os nós de trás para frente.
+		
+		O método OptimizePath não é necessário, porém ele diminui a utilização de recursos. Ele compara vetores subsequentes e avalia se eles estão apontando na mesma direção e sentido, e caso esteja, remove o primeiro vetor, efetivamente mantendo o caminho percorrido, porém com menos etapas.
+		
+		O método GetDistance é utilizado para verificar a distância entre dois nós e calcular o custo de movimentação dentro do método FindPath.
+		
+		O método FindPath é requisitado através do script PathRequestManager, com o objetivo de enfileirar as solicitações de diversas criaturas, para que o sistema não fique sobrecarregado com diversas demandas simultaneas. Possui os métodos Awake, RequestPath, TryNexPath, AfterPathExecuted, e uma classe privada PathRequest para armazenar em uma lista de caminhos.
+		
+		O RequestPath insere o caminho solicitado em uma fila, e faz a chamada ao próximo caminho através do método TryNextPath. Esse, por sua vez, verifica se existe algum caminho sendo calculado. Se não houver, ele desenfilera a primeira solicitação  disponível e faz a chamada ao FindPath no script Pathfinding, e havendo sucesso faz a chamada ao método OnPathFound da OverworldEnemyController para percorrer o caminho encontrado. Em seguida, ele tenta calcular o próximo caminho da fila, e assim por diante.
+		
+		O desenvolvimento de um jogo em uma plataforma como o Unity traz uma série de facilidades na utilização, e nos poupa o esforço de tentar recriar recursos aos quais já temos acesso. Ainda que exista um valor no aprendizado da implementação de tais recursos, quando queremos atingir um resultado melhor, o uso desse tipo de ferramenta é essencial. Note que, mesmo com tudo o que é possível atingir com a simples utilização da ferramenta, ainda existem muitos recursos lógicos a serem implementados.
+		
+		Ainda que seja difícil utilizar a ferramenta em seu potencial máximo, e seja necessário investir algum tempo no aprendizado de seu manuseio, os resultados atingidos ainda acabam por gerar economia de tempo, e portanto, seu uso é vantajoso.
 	</P>
 	<SCRIPT>
 		document.onload = function()
